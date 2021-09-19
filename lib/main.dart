@@ -22,27 +22,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //delaring asset images;
   AssetImage unlucky = AssetImage('assets/images/sadFace.png');
   AssetImage lucky = AssetImage('assets/images/rupee.png');
   AssetImage circle = AssetImage('assets/images/circle.png');
 
+  //Creating a list for all the options and a lucky number which is the number of the index;
   List<String> face = [];
   var luckyNumber;
 
+  //Creating the initial state of the app ,i.e, what will be the value of the options for the first time;
   @override
   void initState() {
     super.initState();
     setState(() {
-      face = List<String>.generate(25, (inedx) => "empty");
+      face = List<String>.generate(
+          //This geenrate should be used only for the first time;
+          25,
+          (inedx) => "empty");
     });
-    generateRandomNumber();
+    generateRandomNumber(); //Calling the generateRandomNumber to prepare a initial random number when the app starts for the first time
+    print(luckyNumber);
   }
 
+  //Generating a random number for the var luckyNumber;
   generateRandomNumber() {
     int random = Random().nextInt(25) + 1;
     luckyNumber = random;
   }
 
+  //This is the resetAll func which will reset the values of all the boxes to empty, i.e, giving them back back the circle image;
   resetAll() {
     setState(() {
       face = List<String>.filled(25, "empty");
@@ -50,6 +59,7 @@ class _HomePageState extends State<HomePage> {
     generateRandomNumber();
   }
 
+  //This is the getImage func which will be providing the images for particular cases;
   getImage(int value) {
     String currentIndex = face[value];
     switch (currentIndex) {
@@ -63,6 +73,7 @@ class _HomePageState extends State<HomePage> {
     return circle;
   }
 
+  //This is like the onClick method which decides what to do when a button is pressed what to do;
   playGame(int index) {
     if (luckyNumber == index) {
       setState(() {
@@ -75,6 +86,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  //This method reveals all the cards;
   showAll() {
     setState(() {
       face = List<String>.filled(25, 'unlucky');
@@ -114,6 +126,7 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           playGame(index);
+                          print(luckyNumber);
                         },
                         child: SizedBox(
                           child: Container(
@@ -136,7 +149,10 @@ class _HomePageState extends State<HomePage> {
                 Colors.black,
               ])),
               child: ElevatedButton(
-                onPressed: resetAll,
+                onPressed: () {
+                  resetAll();
+                  print(luckyNumber);
+                },
                 child: Text(
                   'Reset all',
                   style: TextStyle(color: Colors.black),
